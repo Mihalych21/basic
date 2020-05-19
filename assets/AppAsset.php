@@ -21,11 +21,17 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/topMenu.css',
+        'css/form.css',
     ];
     public $js = [
+        'js/scripts.js',
+        'js/topMenu.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
     ];
+
+    public $jsOptions = ['position' => \yii\web\View::POS_END];
 }

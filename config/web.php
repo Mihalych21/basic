@@ -53,7 +53,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<action:(about|contact|login|logout|politic)>' => 'site/<action>',
+                '<action:(about|contact|login|logout|politic|mail_ok|call)>' => 'site/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],

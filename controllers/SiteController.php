@@ -9,6 +9,9 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\IndexForm;
+use app\models\CallForm;
+use yii\web\View;
 
 class SiteController extends Controller
 {
@@ -61,7 +64,32 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $req = Yii::$app->request;
+        if ($req->isPost && $req->isAjax) {
+            // фильтрация
+            $data = IndexForm::clrPostData($req->post());
+            // отправка почты
+            $res = IndexForm::sendMail($data);
+            // модальное окно об успехе/ошибке
+            return $this->renderAjax('mail_ok', compact('res', 'data'));
+        }
+
         return $this->render('index');
+    }
+
+    /* заказ обратного звонка */
+    public function actionCall()
+    {
+        $model = new CallForm();
+        $req = Yii::$app->request;
+        // форма отправлена
+        if ($model->load(Yii::$app->request->post()) && $req->post('call') === '1') {
+            // сообщение об успехе/ошибке
+            $msg = $model->callSend();
+            die($msg);
+        }
+        // модальное окно с формой
+        return $this->renderAjax('call', compact('model'));
     }
 
     /**
